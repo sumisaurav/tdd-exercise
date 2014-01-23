@@ -8,16 +8,18 @@ describe('pair', function(){
 	});
 });
 
-var isPair = function(handOfCards){
-    var countArr = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0);
+var isPair = function(cardRanks){
+    var rankFrequencies = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0);
 
-    for (var index = 0; index < handOfCards.length; index++) {
-        countArr[handOfCards[index] - 1]++;
+    for (var index = 0; index < cardRanks.length; index++) {
+        var cardRank = cardRanks[index];
+        rankFrequencies[cardRank - 1]++;
     }
 
-    for (var index = 0; index < countArr.length; index++){
-        if( countArr[index]==2)
+    for (var index = 0; index < rankFrequencies.length; index++) {
+        if (rankFrequencies[index] == 2) {
             return true;
+        }
     }
 
     return false;
