@@ -1,27 +1,22 @@
 var should = require("should");
+var _= require("lodash");
 
-describe('pair', function(){
+describe('pair', function() {
     it('should contain two cards of the same rank',function(){
-		isPair([1,2,3,5,5]).should.equal(true);
-		isPair([1,2,3,4,5]).should.equal(false);
-		isPair([1,2,2,2,3]).should.equal(false);
+		hasPair([1,2,3,5,5]).should.equal(true);
+		hasPair([1,2,3,4,5]).should.equal(false);
+		hasPair([1,2,2,2,3]).should.equal(false);
 	});
 });
 
-var isPair = function(cardRanks){
-    var rankFrequencies = new Array(0,0,0,0,0,0,0,0,0,0,0,0,0);
+var hasPair = function(cardRanks) {
+    return containsFrequency(cardRanks, 2);
+};
 
-    for (var index = 0; index < cardRanks.length; index++) {
-        var cardRank = cardRanks[index];
-        rankFrequencies[cardRank - 1]++;
-    }
+var containsFrequency = function(cardRanks, frequency) {
+    return _.contains(rankFrequencies(cardRanks), frequency);
+};
 
-    for (var index = 0; index < rankFrequencies.length; index++) {
-        if (rankFrequencies[index] == 2) {
-            return true;
-        }
-    }
-
-    return false;
-}
-
+var rankFrequencies = function(cardRanks) {
+    return _.countBy(cardRanks);
+};
