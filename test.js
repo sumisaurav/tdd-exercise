@@ -9,8 +9,21 @@ describe('pair', function() {
 	});
 });
 
+describe('triple', function() {
+    it('should contain three cards of the same rank',function(){
+		hasTriple([1,2,5,5,5]).should.equal(true);
+		hasTriple([1,2,3,4,5]).should.equal(false);
+		hasTriple([1,2,7,2,3]).should.equal(false);
+		hasTriple([2,2,2,2,3]).should.equal(false);
+	});
+});
+
 var hasPair = function(cardRanks) {
     return containsFrequency(cardRanks, 2);
+};
+
+var hasTriple = function(cardRanks) {
+    return containsFrequency(cardRanks, 3);
 };
 
 var containsFrequency = function(cardRanks, frequency) {
