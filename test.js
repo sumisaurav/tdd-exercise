@@ -18,12 +18,30 @@ describe('triple', function() {
 	});
 });
 
+
+describe('doublePair', function() {
+    it('should contain pair of two cards having the same rank',function(){
+		hasTwoPairs([2,2,3,5,5]).should.equal(true);
+		hasTwoPairs([1,2,3,4,5]).should.equal(false);
+		hasTwoPairs([1,2,7,2,3]).should.equal(false);
+		hasTwoPairs([2,2,2,3,3]).should.equal(false);
+	});
+});
+
 var hasPair = function(cardRanks) {
     return containsFrequency(cardRanks, 2);
 };
 
 var hasTriple = function(cardRanks) {
     return containsFrequency(cardRanks, 3);
+};
+
+var hasTwoPairs = function(cardRanks) {
+    return (countPairs(cardRanks) == 2);
+};
+
+var countPairs = function(cardRanks) {
+    return _.filter(rankFrequencies(cardRanks),function(frequency) { return frequency==2;}).length;
 };
 
 var containsFrequency = function(cardRanks, frequency) {
@@ -33,3 +51,5 @@ var containsFrequency = function(cardRanks, frequency) {
 var rankFrequencies = function(cardRanks) {
     return _.countBy(cardRanks);
 };
+
+
