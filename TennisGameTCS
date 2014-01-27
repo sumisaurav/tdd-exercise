@@ -1,0 +1,109 @@
+var should = require("should");
+var _ = require('lodash');
+
+describe('tennisScore', function(){
+    it('should have scores from zero to three points are described as "Love", "Fifteen", "Thirty", and "Forty"',function(){
+		getScore(1,1).should.equal("Fifteen-All");
+		getScore(2,2).should.equal("Thirty-All");
+		getScore(3,3).should.equal("none");
+		getScore(4,4).should.equal("none");
+		getScore(4,5).should.equal("none");
+		getScore(1,0).should.equal("Fifteen-Love");
+        getScore(0,1).should.equal("Love-Fifteen");
+        getScore(2,0).should.equal("Thirty-Love");
+    });
+});
+
+describe('deuce', function(){
+    it('should have at least three points scored by each player and players score should be equal',function(){
+		isDeuce(1,1).should.equal(false);
+		isDeuce(2,2).should.equal(false);
+		isDeuce(3,3).should.equal(true);
+		isDeuce(4,4).should.equal(true);
+		isDeuce(4,5).should.equal(false);
+    });
+});
+
+describe('advantage', function(){
+     it('should have at least three points scored by each player and a lead player should score one more point than his opponent ',function(){
+ 		getAdvantage(2,3).should.equal("none");
+ 		getAdvantage(5,4).should.equal("player1");
+ 		getAdvantage(3,4).should.equal("player2");
+ 		getAdvantage(14,15).should.equal("player2");
+ 		getAdvantage(3,5).should.equal("none");
+ 	});
+});
+
+describe('winner', function(){
+    it(' should have at least four points scored and should have at least two points greater than the opponent',function(){
+		getWinner(1,1).should.equal("none");
+		getWinner(2,4).should.equal("player2");
+		getWinner(4,2).should.equal("player1");
+		getWinner(6,10).should.equal("player2");
+		getWinner(14,15).should.equal("none");
+    });
+});
+
+var getScore = function(player1_score, player2_score){
+
+   if((player1_score < 4 && player2_score < 4) && (player1_score + player2_score < 6)) {
+             var game_points = ["Love","Fifteen","Thirty","Forty"];
+             var player1_game_point= game_points[player1_score];
+             var player2_game_point=game_points[player2_score];
+             return (player1_score == player2_score) ? player1_game_point + "-All" : player1_game_point + "-" + player2_game_point;
+
+   }
+   else {
+   return "none";
+   }
+   }
+
+ var isDeuce = function(player1_score, player2_score){
+    var isScoreEqual = _.isEqual(player1_score, player2_score);
+    return  isScoreEqual && player1_score > 2 ;
+ }
+
+ var getAdvantage = function(player1_score, player2_score){
+
+    var scoreDiff = player1_score - player2_score;
+    var advantage_player;
+    if (scoreDiff == 1 && player2_score > 2)
+    {
+        advantage_player = "player1";
+    }
+    else if (scoreDiff == -1 && player1_score > 2)
+    {
+        advantage_player = "player2";
+    }
+    else
+    {
+        advantage_player = "none";
+    }
+     return  advantage_player;
+ }
+
+
+ var getWinner = function(player1_score, player2_score){
+
+    var scoreDiff = player1_score - player2_score;
+    var winner;
+    if (scoreDiff >=2 && player1_score > 3)
+    {
+        winner = "player1";
+    }
+    else if (scoreDiff <=-2 && player2_score > 2)
+    {
+        winner = "player2";
+    }
+    else
+        winner = "none";
+     return  winner;
+ }
+
+
+
+
+
+
+
+
